@@ -14,7 +14,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
@@ -192,6 +192,7 @@ sub expdate_int_cno {
     # [whois.crsnic.net]		Expiration Date: 21-sep-2004
     # [whois.nic.uk]			Renewal Date:   23-Jan-2006
     # [whois.aero]			Expires On:18-May-2008 01:53:51 UTC
+    # [whois.nic.me]			Domain Expiration Date:28-Aug-2012 17:57:10 UTC
     } elsif ($whois =~ m/(?:Expi\w+|Renewal) (?:Date|On):\s*(\d{2})-(\w{3})-(\d{4})/is) {
 	$rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
     # [whois.bulkregister.com]		Record expires on 2003-04-25
@@ -332,7 +333,8 @@ sub credate_int_cno {
     # [whois.afilias.info]		Created On:31-Jul-2001 08:42:21 UTC
     # [whois.enom.com]			Creation date: 11 Jun 2004 14:22:48
     # [whois for domain ibm.com] Record created on 19-Mar-1986.
-    if ($whois =~ m/Creat(?:ion|ed On)[^:]*?:?\s*(\d{2})[- ](\w{3})[- ](\d{4})/is) {
+    # [whois.nic.me]		Domain Create Date:28-Aug-2008 17:57:10 UTC
+    if ($whois =~ m/Creat(?:ion|ed On|e)[^:]*?:?\s*(\d{2})[- ](\w{3})[- ](\d{4})/is) {
 	$rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
     # [whois.nic.name]			Created On: 2002-02-08T14:56:54Z
     # [whois.worldsite.ws]		Domain created on 2002-10-29 03:54:36
