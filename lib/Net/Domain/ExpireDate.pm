@@ -14,7 +14,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
@@ -286,6 +286,9 @@ sub expdate_int_cno {
     # [whois.jprs.jp]                   [....]                      2006/12/31
     } elsif ($whois =~ m|\[\x1b\x24\x42\x4d\x2d\x38\x7a\x34\x7c\x38\x42\x1b\x28\x42\]\s+(\d{4})/(\d{2})/(\d{2})|s) {
         $rulenum = 7.4; $Y = $1; $m = $2; $d = $3;
+    # [whois.ua]			status:     OK-UNTIL 20121122000000
+    } elsif ($whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s) {
+        $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
     }
 
     unless ($rulenum) {
@@ -364,6 +367,9 @@ sub credate_int_cno {
     # [whois.belizenic.bz]		Creation Date....: 15-01-2003 05:00:00
     } elsif ($whois =~ m&Creation Date.+?(\d{2})-(\d{2})-(\d{4}) \d{2}:\d{2}:\d{2}&is) {
 	$rulenum = 5.3;	$d = $1; $m = $2; $Y = $3;
+    # [whois.ua]			created:    0-UANIC 20050104013013
+    } elsif ($whois =~ m|created:\s+0-UANIC (\d{4})(\d{2})(\d{2})\d{6}|s) {
+        $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
     } else {
 	warn "Can't recognise creation date format\n";
 	return undef;
