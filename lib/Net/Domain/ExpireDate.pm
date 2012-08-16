@@ -227,7 +227,8 @@ sub expdate_int_cno {
     } elsif ($whois =~ m/expires?:\s+(\d{4})(\d{2})(\d{2})/is) {
 	$rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
     # [whois.ripe.net] .FI		expires:  1.9.2007
-    } elsif ($whois =~ m/expires?:\s+(\d{1,2}).(\d{1,2}).(\d{4})/is) {
+    # [whois.rnids.rs]          Expiration date: 15.09.2012 11:58:33
+    } elsif ($whois =~ m/(?:expires?|expiration date):\s+(\d{1,2})[.](\d{1,2})[.](\d{4})/is) {
         $rulenum = 2.4; $Y = $3; $m = $2; $d = $1;
     # [whois.dotster.com]		Expires on: 12-DEC-05
     # [whois for domain rosemount.com] Expires on..............: 26-Oct-15
