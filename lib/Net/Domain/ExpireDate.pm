@@ -286,8 +286,17 @@ sub expdate_int_cno {
 	$rulenum = 7.2;	$m = $1; $d = $2; $y = $3;
     } elsif ($whois =~ m|Registered through- (\d{2})/(\d{2})/(\d{2})|is) {
 	$rulenum = 7.3; $m = $1; $d = $2; $y = $3;
-    # [whois.jprs.jp]                   [....]                      2006/12/31
-    } elsif ($whois =~ m|\[\x1b\x24\x42\x4d\x2d\x38\x7a\x34\x7c\x38\x42\x1b\x28\x42\]\s+(\d{4})/(\d{2})/(\d{2})|s) {
+    # [whois.jprs.jp]                   [有効期限]                      2006/12/31
+    } elsif ($whois =~ m{
+            \[ 
+            (?: 
+                有効期限
+                | \x1b\x24\x42\x4d\x2d\x38\x7a\x34\x7c\x38\x42\x1b\x28\x42
+            )
+            \]
+            \s+ ( \d{4} ) / ( \d{2} ) / ( \d{2} )
+        }sx
+    ) {
         $rulenum = 7.4; $Y = $1; $m = $2; $d = $3;
     # [whois.ua]			status:     OK-UNTIL 20121122000000
     } elsif ($whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s) {

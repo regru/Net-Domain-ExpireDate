@@ -107,7 +107,7 @@ like( expire_date('usa.biz', '%Y-%m-%d'), qr(20\d\d-03-26) );
 like( expire_date('nic.info', '%Y-%m-%d'), qr(201\d-07-27) );
 like( expire_date('nic.us', '%Y-%m-%d'), qr(20\d\d-04-17) );
 #like( expire_date('orenet.co.uk', '%Y-%m-%d'), /2006-01-23/ );
-#like( expire_date('google.jp', '%Y-%m-%d'), /2007-05-31/ );
+#is( expire_date('nic.jp', '%Y-%m-%d'), '2013-07-31' );
 
 $Net::Domain::ExpireDate::USE_REGISTRAR_SERVERS = 0;
 like( join( ';', domain_dates("godaddy.com", '%Y-%m-%d') ), qr(1999-03-02;202\d-11-01;) );
