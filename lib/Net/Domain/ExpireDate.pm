@@ -235,7 +235,8 @@ sub expdate_int_cno {
     # [whois.dns.pt]            Expiration Date (dd/mm/yyyy): 31/12/2013
     # [whois.nic.im]            Expiry Date: 28/12/2012 00:59:59
     # [whois.isoc.org.il]       validity:     15-08-2012
-    } elsif ($whois =~ m/(?:validity|Expiry Date|expires?|expiration date(?: \(dd\/mm\/yyyy\))?):\s+(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/is) {
+    # [whois.register.bg]       expires at: 08/01/2013 00:00:00 EET
+    } elsif ($whois =~ m/(?:validity|Expiry Date|expires?(?: at)?|expiration date(?: \(dd\/mm\/yyyy\))?):\s+(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/is) {
         $rulenum = 2.4; $Y = $3; $m = $2; $d = $1;
     # [whois.dotster.com]		Expires on: 12-DEC-05
     # [whois for domain rosemount.com] Expires on..............: 26-Oct-15
