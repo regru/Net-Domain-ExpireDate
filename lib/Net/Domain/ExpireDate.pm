@@ -215,12 +215,13 @@ sub expdate_int_cno {
 	$rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
     # [whois.InternetNamesWW.com]	Expiry Date.......... 2009-06-16
     # [whois.aitdomains.com]		Expire on................ 2002-11-05 16:42:41.000
-    # [whois.yesnic.com]		Valid Date     2010-11-02 05:21:35 EST
+    # [whois.yesnic.com]		    Valid Date     2010-11-02 05:21:35 EST
     # [whois.enetregistry.net]		Expiration Date     : 2002-11-19 04:18:25-05
     # [whois.enterprice.net]		Date of expiration  : 2003-05-28 11:50:58
     # [nswhois.domainregistry.com]	Expires on..............: 2006-07-24
-    # [whois.cira.ca]			Renewal date:   2006/10/27
-    } elsif ($whois =~ m&(?:Expiry Date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-](\d{2})[/.-](\d{2})&s) {
+    # [whois.cira.ca]			    Renewal date:   2006/10/27
+    # [whois.kr]                    Expiration Date             : 2013. 03. 02.
+    } elsif ($whois =~ m&(?:Expiry Date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-] ?(\d{2})[/.-] ?(\d{2})&s) {
 	$rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
     # [whois.oleane.net]		expires:        20030803
     # [whois.nic.it]			expire:      20051011
