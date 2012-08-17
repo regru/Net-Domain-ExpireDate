@@ -10,7 +10,7 @@ use Net::Domain::ExpireDate;
 use POSIX;
 setlocale( &POSIX::LC_TIME, "en_US.UTF-8" );
 
-BEGIN { plan tests => 69 };
+BEGIN { plan tests => 70 };
 
 ok(1); # If we made it this far, we're ok.
 
@@ -69,6 +69,7 @@ is( expdate_fmt("\nRecord will expire on -  2003-04-25\n"), '2003-04-25' );
 is( expdate_fmt("\nRecord will be expiring on date: 2003-04-25\n"), '2003-04-25' );
 
 is( expdate_fmt("\nExpires : January 27 2019.\n"), '2019-01-27' );
+is( expdate_fmt("\nexpires:      September  5 2012\n"), '2012-09-05' );
 is( expdate_fmt("\nDomain Expiration Date:29-Apr-2013 17:53:03 UTC\n"), '2013-04-29' );
 
 is( expdate_fmt("\nstatus:     OK-UNTIL 20130104013013\n"), '2013-01-04' );

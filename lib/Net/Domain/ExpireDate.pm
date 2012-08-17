@@ -238,11 +238,12 @@ sub expdate_int_cno {
     } elsif ($whois =~ m/Expires on\.*: (\d{2})-(\w{3})-(\d{2})/s) {
 	$rulenum = 3;	$d = $1; $b = $2; $y = $3;
     # [whois.register.com]		Expires on..............: Tue, Aug 04, 2009
-    # [whois.registrar.aol.com]		Expires on..............: Oct  5 2002 12:00AM
-    # [whois.itsyourdomain.com]		Record expires on March 06, 2011
+    # [whois.registrar.aol.com]	Expires on..............: Oct  5 2002 12:00AM
+    # [whois.itsyourdomain.com]	Record expires on March 06, 2011
     # [whois.doregi.com]		Record expires on.......: Oct  28, 2011
-    # [www.nic.ac]		Expires : January 27 2019.
-    } elsif ($whois =~ m/(?:Record )?expires (?:on)?\.*:? (?:\w{3}, )?(\w{3,9})\s{1,2}(\d{1,2}),? (\d{4})/is) {
+    # [www.nic.ac]		        Expires : January 27 2019.
+    # [whois.isnic.is]          expires:      September  5 2012
+    } elsif ($whois =~ m/(?:Record )?expires(?: on)?\.* ?:? +(?:\w{3}, )?(\w{3,9})\s{1,2}(\d{1,2}),? (\d{4})/is) {
 	$rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
     # [whois.domainpeople.com]		Expires on .............WED NOV 16 09:09:52 2011
     # [whois.e-names.org]		Expires after:   Mon Jun  9 23:59:59 2003
