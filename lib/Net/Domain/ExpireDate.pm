@@ -191,8 +191,9 @@ sub expdate_int_cno {
     # [whois.publicinterestregistry.net] Expiration Date:03-Mar-2004 05:00:00 UTC
     # [whois.crsnic.net]		Expiration Date: 21-sep-2004
     # [whois.nic.uk]			Renewal Date:   23-Jan-2006
-    # [whois.aero]			Expires On:18-May-2008 01:53:51 UTC
+    # [whois.aero]			    Expires On:18-May-2008 01:53:51 UTC
     # [whois.nic.me]			Domain Expiration Date:28-Aug-2012 17:57:10 UTC
+    # [whois.domainregistry.ie] 
     } elsif ($whois =~ m/(?:Expi\w+|Renewal) (?:Date|On):\s*(\d{2})-(\w{3})-(\d{4})/is) {
 	$rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
     # [whois.bulkregister.com]		Record expires on 2003-04-25
@@ -220,9 +221,10 @@ sub expdate_int_cno {
     # [whois.enterprice.net]		Date of expiration  : 2003-05-28 11:50:58
     # [nswhois.domainregistry.com]	Expires on..............: 2006-07-24
     # [whois.cira.ca]			    Renewal date:   2006/10/27
+    # [whois.cira.ca]               Expiry date:           2015/12/27
     # [whois.kr]                    Expiration Date             : 2013. 03. 02.
     # [whois.nic.ir]                expire-date:   2015-05-26
-    } elsif ($whois =~ m&(?:Expiry Date|expire-date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-] ?(\d{2})[/.-] ?(\d{2})&s) {
+    } elsif ($whois =~ m&(?:Expiry Date|expire-date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-] ?(\d{2})[/.-] ?(\d{2})&si) {
 	$rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
     # [whois.oleane.net]		expires:        20030803
     # [whois.nic.it]			expire:      20051011
