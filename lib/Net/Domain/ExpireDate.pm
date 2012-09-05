@@ -34,12 +34,12 @@ sub expire_date {
     my ($domain, $format) = @_;
 
     if ($USE_REGISTRAR_SERVERS == 0) {
-	return expire_date_query( $domain, $format, 1 )
+        return expire_date_query( $domain, $format, 1 )
     } elsif ($USE_REGISTRAR_SERVERS == 1) {
-	return expire_date_query( $domain, $format, 0 )
+        return expire_date_query( $domain, $format, 0 )
     } elsif ($USE_REGISTRAR_SERVERS == 2) {
-	return expire_date_query( $domain, $format, 0 )
-	    || expire_date_query( $domain, $format, 1 );
+        return expire_date_query( $domain, $format, 0 )
+            || expire_date_query( $domain, $format, 1 );
     }
 
     return undef;
@@ -56,19 +56,19 @@ sub domain_dates {
     my $whois;
 
     if ($USE_REGISTRAR_SERVERS == 0) {
-	$whois = Net::Whois::Raw::whois( $domain, undef, 'QRY_FIRST' );
+        $whois = Net::Whois::Raw::whois( $domain, undef, 'QRY_FIRST' );
     } elsif ($USE_REGISTRAR_SERVERS == 1) {
-	$whois = Net::Whois::Raw::whois( $domain, undef, 'QRY_LAST' );
+        $whois = Net::Whois::Raw::whois( $domain, undef, 'QRY_LAST' );
     } elsif ($USE_REGISTRAR_SERVERS == 2) {
-	$whois = Net::Whois::Raw::whois( $domain, undef, 'QRY_LAST' )
-	       || Net::Whois::Raw::whois( $domain, undef, 'QRY_FIRST' )
+        $whois = Net::Whois::Raw::whois( $domain, undef, 'QRY_LAST' )
+               || Net::Whois::Raw::whois( $domain, undef, 'QRY_FIRST' )
     }
 
     if ($format) {
-	return (domdates_fmt( $whois, $tld, $format ));
+        return (domdates_fmt( $whois, $tld, $format ));
     }
     else {
-	return (domdates_int( $whois, $tld ));
+        return (domdates_int( $whois, $tld ));
     }
 
     return undef;
@@ -85,9 +85,9 @@ sub expire_date_query {
     my $whois = Net::Whois::Raw::whois( $domain, undef, $via_registry ? 'QRY_FIRST' : 'QRY_LAST' );
 
     if ($format) {
-	return expdate_fmt( $whois, $tld, $format );
+        return expdate_fmt( $whois, $tld, $format );
     } else {
-	return expdate_int( $whois, $tld );
+        return expdate_int( $whois, $tld );
     }
 }
 
@@ -128,11 +128,11 @@ sub domdates_int {
     $flags ||= FLG_ALL;
 
     if (isin( $tld, ['ru', 'su', 'xn--p1ai'] )) {
-	return (dates_int_ru( $whois ));
+        return (dates_int_ru( $whois ));
     } else { # 'com', 'net', 'org', 'biz', 'info', 'us', 'uk', 'cc'
-	my $expdate = $flags & FLG_EXPDATE ? expdate_int_cno( $whois ) : undef;
-	my $credate = $flags & FLG_CREDATE ? credate_int_cno( $whois ) : undef;
-	return ($credate, $expdate);
+        my $expdate = $flags & FLG_EXPDATE ? expdate_int_cno( $whois ) : undef;
+        my $credate = $flags & FLG_CREDATE ? credate_int_cno( $whois ) : undef;
+        return ($credate, $expdate);
     }
 }
 
@@ -151,8 +151,8 @@ sub decode_date {
     my $t;
     eval { $t = Time::Piece->strptime($date, $format); };
     if ($@) {
-	warn "Can't parse date: ($date, $format)";
-	return undef;
+        warn "Can't parse date: ($date, $format)";
+        return undef;
     }
 
     return $t;
@@ -186,7 +186,7 @@ sub expdate_int_cno {
     # [whois.gkg.net]			Expires on..............: 24-JAN-2003
     # [whois.enom.com]			Expiration date: 11 Jun 2005 14:22:48
     if ($whois =~ m/\sexpir.+?:?\s+(\d{2})[- ](\w{3})[- ](\d{4})/is) {
-	$rulenum = 1.1;	$d = $1; $b = $2; $Y = $3;
+        $rulenum = 1.1;	$d = $1; $b = $2; $Y = $3;
     # [whois.discount-domain.com]	Expiration Date: 02-Aug-2003 22:07:21
     # [whois.publicinterestregistry.net] Expiration Date:03-Mar-2004 05:00:00 UTC
     # [whois.crsnic.net]		Expiration Date: 21-sep-2004
@@ -195,7 +195,7 @@ sub expdate_int_cno {
     # [whois.nic.me]			Domain Expiration Date:28-Aug-2012 17:57:10 UTC
     # [whois.domainregistry.ie] 
     } elsif ($whois =~ m/(?:Expi\w+|Renewal) (?:Date|On):\s*(\d{2})-(\w{3})-(\d{4})/is) {
-	$rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
+        $rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
     # [whois.bulkregister.com]		Record expires on 2003-04-25
     # [whois.bulkregister.com]		Record will be expiring on date: 2003-04-25
     # [whois.bulkregister.com]		Record expiring on -  2003-04-25
@@ -213,7 +213,7 @@ sub expdate_int_cno {
     # [whois.1stdomain.net]		Domain expires: 2007-01-20.
     # [whois.easyspace.com]
     } elsif ($whois =~ m&(?:Record |Domain )?(?:will )?(?:be )?expir(?:e|ed|es|ing)(?: on)?(?: date)?\s*[-:]?\s*(\d{4})[/-](\d{1,2})[/-](\d{1,2})&is) {
-	$rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
     # [whois.InternetNamesWW.com]	Expiry Date.......... 2009-06-16
     # [whois.aitdomains.com]		Expire on................ 2002-11-05 16:42:41.000
     # [whois.yesnic.com]		    Valid Date     2010-11-02 05:21:35 EST
@@ -225,11 +225,11 @@ sub expdate_int_cno {
     # [whois.kr]                    Expiration Date             : 2013. 03. 02.
     # [whois.nic.ir]                expire-date:   2015-05-26
     } elsif ($whois =~ m&(?:Expiry Date|expire-date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-] ?(\d{2})[/.-] ?(\d{2})&si) {
-	$rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
     # [whois.oleane.net]		expires:        20030803
     # [whois.nic.it]			expire:      20051011
     } elsif ($whois =~ m/expires?:\s+(\d{4})(\d{2})(\d{2})/is) {
-	$rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
     # [whois.ripe.net] .FI		expires:  1.9.2007
     # [whois.rnids.rs]          Expiration date: 15.09.2012 11:58:33
     # [whois.dns.pt]            Expiration Date (dd/mm/yyyy): 31/12/2013
@@ -242,7 +242,7 @@ sub expdate_int_cno {
     # [whois for domain rosemount.com] Expires on..............: 26-Oct-15
     # [whois.godaddy.com]		Expires on: 02-Mar-16
     } elsif ($whois =~ m/Expires on\.*: (\d{2})-(\w{3})-(\d{2})/s) {
-	$rulenum = 3;	$d = $1; $b = $2; $y = $3;
+        $rulenum = 3;	$d = $1; $b = $2; $y = $3;
     # [whois.register.com]		Expires on..............: Tue, Aug 04, 2009
     # [whois.registrar.aol.com]	Expires on..............: Oct  5 2002 12:00AM
     # [whois.itsyourdomain.com]	Record expires on March 06, 2011
@@ -250,49 +250,49 @@ sub expdate_int_cno {
     # [www.nic.ac]		        Expires : January 27 2019.
     # [whois.isnic.is]          expires:      September  5 2012
     } elsif ($whois =~ m/(?:Record )?expires(?: on)?\.* ?:? +(?:\w{3}, )?(\w{3,9})\s{1,2}(\d{1,2}),? (\d{4})/is) {
-	$rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
+        $rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
     # [whois.domainpeople.com]		Expires on .............WED NOV 16 09:09:52 2011
     # [whois.e-names.org]		Expires after:   Mon Jun  9 23:59:59 2003
     # [whois.corporatedomains.com]	Created on..............: Mon, Nov 12, 2007
     } elsif ($whois =~ m/(?:Created|Expires) (?:on|after)\s?\.*:?\s*\w{3},? (\w{3})\s{1,2}(\d{1,2})(?: \d{2}:\d{2}:\d{2})? (\d{4})?/is) {
-	$rulenum = 4.2;	$b = $1; $d = $2; $Y = $3;
+        $rulenum = 4.2;	$b = $1; $d = $2; $Y = $3;
     # [whois.enom.com]			Expiration date: Fri Sep 21 2012 13:45:09
     # [whois.enom.com]			Expires: Fri Sep 21 2012 13:45:09
     # [whois.neulevel.biz]		Domain Expiration Date: Fri Mar 26 23:59:59 GMT 2004
     } elsif ($whois =~ m/(?:Domain )?(?:Expires|Expiration Date):\s+\w{3} (\w{3}) (\d{2}) (?:\d{2}:\d{2}:\d{2} \w{3}(?:[-+]\d{2}:\d{2})? )(\d{4})/is) {
-	$rulenum = 4.3; $b = $1; $d = $2; $Y = $3;
+        $rulenum = 4.3; $b = $1; $d = $2; $Y = $3;
     # [rs.domainbank.net]		Record expires on 10-05-2003 11:21:25 AM
     # [whois.psi-domains.com]
     # [whois.namesecure.com]		Expires on 10-09-2011
     # [whois.catalog.com]		Record Expires on 08-24-2011
     } elsif ($whois =~ m&expires.+?(\d{2})-(\d{2})-(\d{4})&is) {
-	$rulenum = 5.1;	$m = $1; $d = $2; $Y = $3;
+        $rulenum = 5.1;	$m = $1; $d = $2; $Y = $3;
     # [whois.stargateinc.com]		Expiration: 6/3/2004
     # [whois.bookmyname.com]		Expires on 11/26/2007 23:00:00
     } elsif ($whois =~ m&(?:Expiration|Expires on):? (\d{1,2})[-/](\d{1,2})[-/](\d{4})&is) {
-	$rulenum = 5.2;	$m = $1; $d = $2; $Y = $3;
+        $rulenum = 5.2;	$m = $1; $d = $2; $Y = $3;
     # [whois.belizenic.bz]		Expiration Date..: 15-01-2005 12:00:00
     } elsif ($whois =~ m&Expiration Date.+?(\d{2})-(\d{2})-(\d{4}) \d{2}:\d{2}:\d{2}&is) {
-	$rulenum = 5.3;	$d = $1; $m = $2; $Y = $3;
+        $rulenum = 5.3;	$d = $1; $m = $2; $Y = $3;
     # edit for .uk domains: Adam McGreggor <cpan[...]amyl.org.uk>;
     # kudos on a typo to <ganesh[...]urchin.earth.li>, via irc.mysociety.org
     # [whois.nic.uk] Registered on: 21-Oct-2003
     } elsif ($whois =~ m&Registered on.+?(\d{2})-(\w{3})-(\d{4})&is) {
-	$rulenum = 5.4; $d = $1; $b = $2; $Y = $3;
+        $rulenum = 5.4; $d = $1; $b = $2; $Y = $3;
     # [whois.nordnet.net]		Record expires on 2010-Apr-03
     # [whois.nic.nu]			Record created on 1999-Apr-5.
     # [whois.alldomains.com]		Expires on..............: 2006-Jun-12
     } elsif ($whois =~ m/(?:Record |Domain )?expires on\.*:? (\d{4})-(\w{3})-(\d{1,2})/is) {
-	$rulenum = 6;	$Y = $1; $b = $2; $d = $3;
+        $rulenum = 6;	$Y = $1; $b = $2; $d = $3;
     # [whois.enom.com]			Expiration date: 09/21/03 13:45:09
     } elsif ($whois =~ m|Expiration date: (\d{2})/(\d{2})/(\d{2})|s) {
-	$rulenum = 7;	$m = $1; $d = $2; $y = $3;
+        $rulenum = 7;	$m = $1; $d = $2; $y = $3;
     } elsif ($whois =~ m/Registered through- (\w{3}) (\w{3}) (\d{2}) (\d{4})/is) {
-	$rulenum = 7.1; $b = $2; $d = $3; $Y = $4;
+        $rulenum = 7.1; $b = $2; $d = $3; $Y = $4;
     } elsif ($whois =~ m|Expires: (\d{2})/(\d{2})/(\d{2})|is) {
-	$rulenum = 7.2;	$m = $1; $d = $2; $y = $3;
+        $rulenum = 7.2;	$m = $1; $d = $2; $y = $3;
     } elsif ($whois =~ m|Registered through- (\d{2})/(\d{2})/(\d{2})|is) {
-	$rulenum = 7.3; $m = $1; $d = $2; $y = $3;
+        $rulenum = 7.3; $m = $1; $d = $2; $y = $3;
     # [whois.jprs.jp]                   [有効期限]                      2006/12/31
     } elsif ($whois =~ m{
             \[ 
@@ -311,10 +311,10 @@ sub expdate_int_cno {
     }
 
     unless ($rulenum) {
-	warn "Can't recognise expiration date format: $whois\n";
-	return undef;
+        warn "Can't recognise expiration date format: $whois\n";
+        return undef;
     } else {
-	#warn "rulenum: $rulenum\n";
+        #warn "rulenum: $rulenum\n";
     };
 
     my ($fstr, $dstr) = ('', '');
@@ -322,13 +322,13 @@ sub expdate_int_cno {
     $dstr .= $Y ? "$Y " : "$y ";
 
     if ( $b && length $b > 3 ) {
-	$fstr .= '%B ';
+        $fstr .= '%B ';
     }
     elsif ( $b && length $b == 3 ) {
-	$fstr .= '%b ';
+        $fstr .= '%b ';
     }
     else {
-	$fstr .= '%m ';
+        $fstr .= '%m ';
     }
     
     $dstr .= $b ? "$b " : "$m ";
@@ -357,41 +357,41 @@ sub credate_int_cno {
     # [whois for domain ibm.com] Record created on 19-Mar-1986.
     # [whois.nic.me]		Domain Create Date:28-Aug-2008 17:57:10 UTC
     if ($whois =~ m/Creat(?:ion|ed On|e)[^:]*?:?\s*(\d{2})[- ](\w{3})[- ](\d{4})/is) {
-	$rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
+        $rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
     # [whois.nic.name]			Created On: 2002-02-08T14:56:54Z
     # [whois.worldsite.ws]		Domain created on 2002-10-29 03:54:36
     # [..cn]				Registration Date: 2003-03-19 08:06
     } elsif ($whois =~ m/(?:Creat.+?|Registration Date):?\s*?(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/is) {
-	$rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
     # [whois.org.ru] created: 2006.12.16
     } elsif ($whois =~ m/created:\s+(\d{4})\.(\d{2})\.(\d{2})/is) {
-	$rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
     # [whois.nic.it]			created:     20000421
     } elsif ($whois =~ m/created?:\s+(\d{4})(\d{2})(\d{2})/is) {
-	$rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
     # [whois.relcom.net]		changed:      support@webnames.ru 20030815
     } elsif ($whois =~ m/changed:.+?(\d{4})(\d{2})(\d{2})/is) {
-	$rulenum = 2.4;	$Y = $1; $m = $2; $d = $3;
+        $rulenum = 2.4;	$Y = $1; $m = $2; $d = $3;
     # [whois.tv]			Record created on Feb 21 2001.
     } elsif ($whois =~ m/Creat.+?:?\s*(?:\w{3}, )?(\w{3,9})\s{1,2}(\d{1,2}),? (\d{4})/is) {
-	$rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
+        $rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
     # [whois.dns.be]			Registered:  Wed Jan 17 2001
     } elsif ($whois =~ m/Regist.+?:\s*\w{3} (\w{3})\s+(\d{1,2}) (?:\d{2}:\d{2}:\d{2} )?(\d{4})/is) {
-	$rulenum = 4.2;	$b = $1; $d = $2; $Y = $3;
+        $rulenum = 4.2;	$b = $1; $d = $2; $Y = $3;
     # [whois.whois.neulevel.biz]	Domain Registration Date: Wed Mar 27 00:01:00 GMT 2002
     } elsif ($whois =~ m/Registration.*?:\s+\w{3} (\w{3}) (\d{2}) (?:\d{2}:\d{2}:\d{2} \w{3}(?:[-+]\d{2}:\d{2})? )?(\d{4})/is) {
-	$rulenum = 4.3; $b = $1; $d = $2; $Y = $3;
+        $rulenum = 4.3; $b = $1; $d = $2; $Y = $3;
     } elsif ($whois =~ m&created.+?(\d{2})-(\d{2})-(\d{4})&is) {
-	$rulenum = 5.1;	$m = $1; $d = $2; $Y = $3;
+        $rulenum = 5.1;	$m = $1; $d = $2; $Y = $3;
     # [whois.belizenic.bz]		Creation Date....: 15-01-2003 05:00:00
     } elsif ($whois =~ m&Creation Date.+?(\d{2})-(\d{2})-(\d{4}) \d{2}:\d{2}:\d{2}&is) {
-	$rulenum = 5.3;	$d = $1; $m = $2; $Y = $3;
+        $rulenum = 5.3;	$d = $1; $m = $2; $Y = $3;
     # [whois.ua]			created:    0-UANIC 20050104013013
     } elsif ($whois =~ m|created:\s+0-UANIC (\d{4})(\d{2})(\d{2})\d{6}|s) {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
     } else {
-	warn "Can't recognise creation date format\n";
-	return undef;
+        warn "Can't recognise creation date format\n";
+        return undef;
     }
 
     my ($fstr, $dstr) = ('', '');
@@ -399,13 +399,13 @@ sub credate_int_cno {
     $dstr .= $Y ? "$Y " : "$y ";
     
     if ( $b && length $b > 3 ) {
-	$fstr .= '%B ';
+        $fstr .= '%B ';
     }
     elsif ( $b && length $b == 3 ) {
-	$fstr .= '%b ';
+        $fstr .= '%b ';
     }
     else {
-	$fstr .= '%m ';
+        $fstr .= '%m ';
     }
     
     $dstr .= $b ? "$b " : "$m ";
@@ -437,28 +437,28 @@ sub dates_int_ru {
     $created =~ tr/./-/ if $created;
 
     if ($created) {
-	# Guess reg-till date
-	$created = decode_date( $created, '%Y-%m-%d' );
-	my $t = $created;
+        # Guess reg-till date
+        $created = decode_date( $created, '%Y-%m-%d' );
+        my $t = $created;
 
-	if ($t && !$reg_till && !$free_date) {
-	    $t += 0;
-	    while ($t < localtime()) {
-		$t += ONE_YEAR + ($t->is_leap_year() ? 1 : 0);
-	    }
-	    $reg_till = $t->strftime( '%Y-%m-%d' );
-	}
+        if ($t && !$reg_till && !$free_date) {
+            $t += 0;
+            while ($t < localtime()) {
+                $t += ONE_YEAR + ($t->is_leap_year() ? 1 : 0);
+            }
+            $reg_till = $t->strftime( '%Y-%m-%d' );
+        }
     }
 
     unless ( $reg_till || $free_date ) {
-	warn "Can't obtain expiration date from ($reg_till)\n";
-	return undef;
+        warn "Can't obtain expiration date from ($reg_till)\n";
+        return undef;
     }
 
     $reg_till = decode_date( $reg_till );
     $free_date = decode_date( $free_date );
     if (!$reg_till && $free_date) {
-	$reg_till = $free_date - 33 * ONE_DAY;
+        $reg_till = $free_date - 33 * ONE_DAY;
     }
     
     return ($created, $reg_till, $free_date);
@@ -468,7 +468,7 @@ sub isin {
     my ( $val, $arr ) = @_;
     return '' unless $arr;
     foreach (@{$arr}) {
-	return 1 if ($_ eq $val);
+        return 1 if ($_ eq $val);
     }
     return 0;
 }
