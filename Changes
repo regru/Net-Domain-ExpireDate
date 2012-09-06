@@ -165,3 +165,6 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.04 2012-Aug-13	Alexander Nalobin
 	- added support for Ukrainian Whois query server
+
+1.05 2012-Sep-06	Walery Studennikov
+	- constants ONE_YEAR and ONE_DAY made local

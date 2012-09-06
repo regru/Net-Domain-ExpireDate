@@ -1,7 +1,6 @@
 package Net::Domain::ExpireDate;
 
 use strict;
-use Time::Seconds;
 use Time::Piece;
 use Net::Whois::Raw;
 
@@ -9,12 +8,15 @@ use constant FLG_EXPDATE => 0b0001;
 use constant FLG_CREDATE => 0b0010;
 use constant FLG_ALL     => 0b1111;
 
+use constant ONE_DAY => 86_400;
+use constant ONE_YEAR => 31_556_930; # 365.24225 days
+
 our @EXPORT = qw(
     expire_date expdate_int expdate_fmt credate_fmt domain_dates domdates_fmt
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
