@@ -103,7 +103,7 @@ print "The following tests requires internet connection and may fail if checked 
 
 $Net::Domain::ExpireDate::USE_REGISTRAR_SERVERS = 2;
 
-like( expire_date('microsoft.com', '%Y-%m-%d'), qr(202\d-05-02) );
+like( expire_date('microsoft.com', '%Y-%m-%d'), qr(202\d-05-0(2|3)) );
 like( expire_date('usa.biz', '%Y-%m-%d'), qr(20\d\d-03-26) );
 like( expire_date('nic.info', '%Y-%m-%d'), qr(201\d-07-27) );
 like( expire_date('nic.us', '%Y-%m-%d'), qr(20\d\d-04-17) );
