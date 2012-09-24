@@ -16,7 +16,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.07';
+our $VERSION = '1.08';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
@@ -366,7 +366,7 @@ sub credate_int_cno {
     } elsif ($whois =~ m/(?:Creat.+?|Registration Date):?\s*?(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/is) {
         $rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
     # [whois.org.ru] created: 2006.12.16
-    } elsif ($whois =~ m/created:\s+(\d{4})\.(\d{2})\.(\d{2})/is) {
+    } elsif ($whois =~ m/(?:created|registered):\s+(\d{4})[-.](\d{2})[-.](\d{2})/is) {
         $rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
     # [whois.nic.it]			created:     20000421
     } elsif ($whois =~ m/created?:\s+(\d{4})(\d{2})(\d{2})/is) {

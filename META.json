@@ -30,7 +30,7 @@
    "provides" : {
       "Net::Domain::ExpireDate" : {
          "file" : "lib/Net/Domain/ExpireDate.pm",
-         "version" : "1.07"
+         "version" : "1.08"
       }
    },
    "release_status" : "stable",
@@ -39,5 +39,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "1.07"
+   "version" : "1.08"
 }
