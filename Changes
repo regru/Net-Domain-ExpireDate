@@ -166,14 +166,17 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 1.04 2012-Aug-13	Alexander Nalobin
 	- added support for Ukrainian Whois query server
 
-1.05 2012-Sep-03 Alexander Nalobin
+1.05 2012-Sep-03	Alexander Nalobin
 	- added support for misc ccTLDs whois servers
 
 1.06 2012-Sep-06	Walery Studennikov
 	- constants ONE_YEAR and ONE_DAY made local
 
-1.07 2012-Sep-08	Walery Studennikov
+1.07 2012-Sep-08       Walery Studennikov
 	- tests fixed
 
-1.08 2012-Sep-24 Alexander Nalobin
+1.08 2012-Sep-24	Alexander Nalobin
 	- parse .AM creation dates
+
+1.09 2012-Oct-31	Walery Studenikov
+	- fixed test
