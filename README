@@ -36,8 +36,8 @@ FUNCTIONS
     expdate_int( WHOISTEXT [,TLD] )
         Extracts expiration date of domain in TLD from "WHOISTEXT". If no
         TLD is given 'com' is the default. There is no distinction between
-        'com' or 'net' TLDs in this function. Also 'org', 'biz', 'info',
-        'us', 'uk', 'ru' and 'su' TLDs are suppored. Returns Time::Piece
+        'com' or 'net' TLDs in this function. Also 'org', 'biz', 'cz', 'info',
+        'us', 'uk', 'ru' and 'su' TLDs are supported. Returns Time::Piece
         object.
 
         With "FORMAT" argument returns date formatted using "FORMAT"
@@ -58,8 +58,8 @@ FUNCTIONS
         Returns list of two values - creation and expiration date of domain
         extracted from "WHOISTEXT". If no TLD is given 'com' is the default.
         There is no distinction between 'com' or 'net' TLDs in this
-        function. Also 'org', 'biz', 'info', 'us', 'ru' and 'su' TLDs are
-        suppored. Returns Time::Piece object.
+        function. Also 'org', 'biz', 'cz', 'info', 'us', 'ru' and 'su' TLDs are
+        supported. Returns Time::Piece object.
 
 AUTHOR
     Walery Studennikov, <despair@cpan.org>

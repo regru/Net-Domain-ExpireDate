@@ -16,7 +16,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.09';
+our $VERSION = '1.10';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
@@ -374,6 +374,9 @@ sub credate_int_cno {
     # [whois.relcom.net]		changed:      support@webnames.ru 20030815
     } elsif ($whois =~ m/changed:.+?(\d{4})(\d{2})(\d{2})/is) {
         $rulenum = 2.4;	$Y = $1; $m = $2; $d = $3;
+     # created: 16.12.2006
+     } elsif ($whois =~ m/(?:created|registered):\s+(\d{2})[-.](\d{2})[-.](\d{4})/is) {
+         $rulenum = 2.5;        $Y = $3; $m = $2; $d = $1;
     # [whois.tv]			Record created on Feb 21 2001.
     } elsif ($whois =~ m/Creat.+?:?\s*(?:\w{3}, )?(\w{3,9})\s{1,2}(\d{1,2}),? (\d{4})/is) {
         $rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
@@ -535,7 +538,7 @@ See L<strftime> man page for C<FORMAT> specification.
 Extracts expiration date of domain in TLD from C<WHOISTEXT>.
 If no TLD is given 'com' is the default. There is no
 distinction between 'com' or 'net' TLDs in this function.
-Also 'org', 'biz', 'info', 'us', 'uk', 'ru' and 'su' TLDs are suppored.
+Also 'org', 'biz', 'cz', 'info', 'us', 'uk', 'ru' and 'su' TLDs are supported.
 Returns L<Time::Piece> object.
 
 With C<FORMAT> argument returns date formatted using C<FORMAT> template
@@ -560,7 +563,7 @@ Returns list of three values -- creation, expiration and
 free date of domain extracted from C<WHOISTEXT>.
 If no TLD is given 'com' is the default. There is no
 distinction between 'com' or 'net' TLDs in this function.
-Also 'org', 'biz', 'info', 'us', 'ru' and 'su' TLDs are suppored.
+Also 'org', 'biz', 'cz', 'info', 'us', 'ru' and 'su' TLDs are supported.
 Returns L<Time::Piece> object.
 
 =item domdates_fmt( WHOISTEXT [,TLD [,FORMAT [,FLAGS]]] )
