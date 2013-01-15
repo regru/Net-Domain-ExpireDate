@@ -365,18 +365,18 @@ sub credate_int_cno {
     # [..cn]				Registration Date: 2003-03-19 08:06
     } elsif ($whois =~ m/(?:Creat.+?|Registration Date):?\s*?(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/is) {
         $rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
-    # [whois.org.ru] created: 2006.12.16
-    } elsif ($whois =~ m/(?:created|registered):\s+(\d{4})[-.](\d{2})[-.](\d{2})/is) {
-        $rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
-    # [whois.nic.it]			created:     20000421
-    } elsif ($whois =~ m/created?:\s+(\d{4})(\d{2})(\d{2})/is) {
-        $rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
-    # [whois.relcom.net]		changed:      support@webnames.ru 20030815
-    } elsif ($whois =~ m/changed:.+?(\d{4})(\d{2})(\d{2})/is) {
-        $rulenum = 2.4;	$Y = $1; $m = $2; $d = $3;
      # created: 16.12.2006
      } elsif ($whois =~ m/(?:created|registered):\s+(\d{2})[-.](\d{2})[-.](\d{4})/is) {
-         $rulenum = 2.5;        $Y = $3; $m = $2; $d = $1;
+         $rulenum = 2.2;        $Y = $3; $m = $2; $d = $1;
+    # [whois.org.ru] created: 2006.12.16
+    } elsif ($whois =~ m/(?:created|registered):\s+(\d{4})[-.](\d{2})[-.](\d{2})/is) {
+        $rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
+    # [whois.nic.it]			created:     20000421
+    } elsif ($whois =~ m/created?:\s+(\d{4})(\d{2})(\d{2})/is) {
+        $rulenum = 2.4;	$Y = $1; $m = $2; $d = $3;
+    # [whois.relcom.net]		changed:      support@webnames.ru 20030815
+    } elsif ($whois =~ m/changed:.+?(\d{4})(\d{2})(\d{2})/is) {
+        $rulenum = 2.5;	$Y = $1; $m = $2; $d = $3;
     # [whois.tv]			Record created on Feb 21 2001.
     } elsif ($whois =~ m/Creat.+?:?\s*(?:\w{3}, )?(\w{3,9})\s{1,2}(\d{1,2}),? (\d{4})/is) {
         $rulenum = 4.1;	$b = $1; $d = $2; $Y = $3;
