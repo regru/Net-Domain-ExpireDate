@@ -172,7 +172,7 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 1.06 2012-Sep-06	Walery Studennikov
 	- constants ONE_YEAR and ONE_DAY made local
 
-1.07 2012-Sep-08       Walery Studennikov
+1.07 2012-Sep-08	Walery Studennikov
 	- tests fixed
 
 1.08 2012-Sep-24	Alexander Nalobin
@@ -183,3 +183,6 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.10 2013-Jan-14        Vladimir Melnichenko
         - parse DD.MM.YYYY creation date
+
+1.11 2013-Mar-20        Walery Studennikov
+        - fixed test

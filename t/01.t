@@ -105,7 +105,7 @@ $Net::Domain::ExpireDate::USE_REGISTRAR_SERVERS = 2;
 
 like( expire_date('microsoft.com', '%Y-%m-%d'), qr(202\d-05-0(2|3)) );
 like( expire_date('usa.biz', '%Y-%m-%d'), qr(20\d\d-03-26) );
-is( expire_date('nic.md', '%Y-%m-%d'), '2020-09-05' );
+is( expire_date('nic.md', '%Y-%m-%d'), '2019-10-19' );
 like( expire_date('nic.us', '%Y-%m-%d'), qr(20\d\d-04-17) );
 #like( expire_date('orenet.co.uk', '%Y-%m-%d'), /2006-01-23/ );
 #is( expire_date('nic.jp', '%Y-%m-%d'), '2013-07-31' );
