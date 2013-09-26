@@ -167,7 +167,7 @@ sub _config_netwhoisraw {
     $Net::Whois::Raw::CACHE_TIME = $CACHE_TIME if $CACHE_TIME;
 }
 
-# extract expiration date from whois output for .com .net .org domains
+# extract expiration date from whois output
 sub expdate_int_cno {
     my ($whois) = @_;
     return undef unless $whois;
@@ -195,7 +195,7 @@ sub expdate_int_cno {
     # [whois.nic.uk]			Renewal Date:   23-Jan-2006
     # [whois.aero]			    Expires On:18-May-2008 01:53:51 UTC
     # [whois.nic.me]			Domain Expiration Date:28-Aug-2012 17:57:10 UTC
-    # [whois.domainregistry.ie] 
+    # [whois.domainregistry.ie]
     } elsif ($whois =~ m/(?:Expi\w+|Renewal) (?:Date|On):\s*(\d{2})-(\w{3})-(\d{4})/is) {
         $rulenum = 1.2;	$d = $1; $b = $2; $Y = $3;
     # [whois.bulkregister.com]		Record expires on 2003-04-25
@@ -214,7 +214,8 @@ sub expdate_int_cno {
     # [whois.signaturedomains.com]	Expires on: 2003-11-05
     # [whois.1stdomain.net]		Domain expires: 2007-01-20.
     # [whois.easyspace.com]
-    } elsif ($whois =~ m&(?:Record |Domain )?(?:will )?(?:be )?expir(?:e|ed|es|ing)(?: on)?(?: date)?\s*[-:]?\s*(\d{4})[/-](\d{1,2})[/-](\d{1,2})&is) {
+    # [whois.centralnic.com]    Expiration Date:2014-05-13T23:59:59.0Z
+    } elsif ($whois =~ m&(?:Record |Domain )?(?:will )?(?:be )?expir(?:e|ed|es|ing|ation)(?: on)?(?: date)?\s*[-:]?\s*(\d{4})[/-](\d{1,2})[/-](\d{1,2})&is) {
         $rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
     # [whois.InternetNamesWW.com]	Expiry Date.......... 2009-06-16
     # [whois.aitdomains.com]		Expire on................ 2002-11-05 16:42:41.000
@@ -297,8 +298,8 @@ sub expdate_int_cno {
         $rulenum = 7.3; $m = $1; $d = $2; $y = $3;
     # [whois.jprs.jp]                   [有効期限]                      2006/12/31
     } elsif ($whois =~ m{
-            \[ 
-            (?: 
+            \[
+            (?:
                 有効期限
                 | \x1b\x24\x42\x4d\x2d\x38\x7a\x34\x7c\x38\x42\x1b\x28\x42
             )
@@ -332,7 +333,7 @@ sub expdate_int_cno {
     else {
         $fstr .= '%m ';
     }
-    
+
     $dstr .= $b ? "$b " : "$m ";
 
     $fstr .= '%d';
@@ -342,7 +343,7 @@ sub expdate_int_cno {
 }
 
 
-# extract creation date from whois output for .com .net .org .uk domains
+# extract creation date from whois output
 sub credate_int_cno {
     my ($whois) = @_;
     return undef unless $whois;
@@ -399,7 +400,7 @@ sub credate_int_cno {
     my ($fstr, $dstr) = ('', '');
     $fstr .= $Y ? '%Y ' : '%y ';
     $dstr .= $Y ? "$Y " : "$y ";
-    
+
     if ( $b && length $b > 3 ) {
         $fstr .= '%B ';
     }
@@ -409,7 +410,7 @@ sub credate_int_cno {
     else {
         $fstr .= '%m ';
     }
-    
+
     $dstr .= $b ? "$b " : "$m ";
 
     $fstr .= '%d';
@@ -462,7 +463,7 @@ sub dates_int_ru {
     if (!$reg_till && $free_date) {
         $reg_till = $free_date - 33 * ONE_DAY;
     }
-    
+
     return ($created, $reg_till, $free_date);
 }
 
