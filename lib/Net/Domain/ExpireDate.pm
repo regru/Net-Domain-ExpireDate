@@ -311,6 +311,9 @@ sub expdate_int_cno {
     # [whois.ua]			status:     OK-UNTIL 20121122000000
     } elsif ($whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s) {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
+    # [whois.nic.io]        Expiry : 2017-01-25
+    } elsif ($whois =~ m/Expiry : (\d{4})-(\d{2})-(\d{2})/s) {
+        $rulenum = 7.6; $Y = $1; $m = $2; $d = $3;
     }
 
     unless ($rulenum) {
