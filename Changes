@@ -186,3 +186,7 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.11 2013-Mar-20        Walery Studennikov
         - fixed test
+
+1.12 2014-Mar-04        Alexander Nalobin
+        - addedd support for whois.nic.io server, thanx to Ivan Bessarabov
+
