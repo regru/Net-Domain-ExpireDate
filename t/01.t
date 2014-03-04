@@ -117,5 +117,5 @@ $Net::Domain::ExpireDate::USE_REGISTRAR_SERVERS = 2;
 
 like( join( ';', domain_dates("reg.ru", '%Y-%m-%d') ), qr(2005-11-01;201\d-11-01;) );
 
-like( join( ';', domain_dates("ibm.com", '%Y-%m-%d') ), qr(1986-03-19;20\d\d-03-21;) );
+like( join( ';', domain_dates("ibm.com", '%Y-%m-%d') ), qr(1986-03-19;20\d\d-03-20;) );
 like( join( ';', domain_dates("intel.com", '%Y-%m-%d') ), qr(1986-03-25;20\d\d-03-26;) );
