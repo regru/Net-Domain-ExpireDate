@@ -227,7 +227,8 @@ sub expdate_int_cno {
     # [whois.cira.ca]               Expiry date:           2015/12/27
     # [whois.kr]                    Expiration Date             : 2013. 03. 02.
     # [whois.nic.ir]                expire-date:   2015-05-26
-    } elsif ($whois =~ m&(?:Expiry Date|expire-date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-] ?(\d{2})[/.-] ?(\d{2})&si) {
+    # [whois.nic.io]                Expiry : 2017-01-25
+    } elsif ($whois =~ m&(?:Expiry|Expiry Date|expire-date|Expire(?:d|s)? on|Valid[ -][Dd]ate|[Ee]xpiration [Dd]ate|Date of expiration|Renewal[- ][Dd]ate)(?:\.*|\s*):?\s+(\d{4})[/.-] ?(\d{2})[/.-] ?(\d{2})&si) {
         $rulenum = 2.2;	$Y = $1; $m = $2; $d = $3;
     # [whois.oleane.net]		expires:        20030803
     # [whois.nic.it]			expire:      20051011
@@ -311,9 +312,6 @@ sub expdate_int_cno {
     # [whois.ua]			status:     OK-UNTIL 20121122000000
     } elsif ($whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s) {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
-    # [whois.nic.io]        Expiry : 2017-01-25
-    } elsif ($whois =~ m/Expiry : (\d{4})-(\d{2})-(\d{2})/s) {
-        $rulenum = 7.6; $Y = $1; $m = $2; $d = $3;
     }
 
     unless ($rulenum) {
