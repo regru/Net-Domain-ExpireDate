@@ -3,6 +3,11 @@ package Net::Domain::ExpireDate;
 use strict;
 use Time::Piece;
 use Net::Whois::Raw;
+use Encode;
+use utf8;
+
+binmode STDOUT, 'encoding(UTF-8)';
+binmode STDERR, 'encoding(UTF-8)';
 
 use constant FLG_EXPDATE => 0b0001;
 use constant FLG_CREDATE => 0b0010;
@@ -30,7 +35,6 @@ $USE_REGISTRAR_SERVERS = 0;
 # for Net::Whois::Raw
 $Net::Whois::Raw::OMIT_MSG = 2;
 $Net::Whois::Raw::CHECK_FAIL = 3;
-
 
 sub expire_date {
     my ($domain, $format) = @_;
@@ -125,17 +129,22 @@ sub credate_fmt {
 }
 
 sub domdates_int {
-    my ($whois, $tld, $flags) = @_;
+    my ( $whois, $tld, $flags ) = @_;
     $tld ||= 'com';
     $flags ||= FLG_ALL;
 
-    if (isin( $tld, ['ru', 'su', 'xn--p1ai'] )) {
-        return (dates_int_ru( $whois ));
-    } else { # 'com', 'net', 'org', 'biz', 'info', 'us', 'uk', 'cc'
-        my $expdate = $flags & FLG_EXPDATE ? expdate_int_cno( $whois ) : undef;
-        my $credate = $flags & FLG_CREDATE ? credate_int_cno( $whois ) : undef;
-        return ($credate, $expdate);
+    if ( isin( $tld, [ qw( ru su xn--p1ai ) ] ) ) {
+        return dates_int_ru( $whois );
     }
+
+    # other tlds
+    if ( $tld eq 'jp' ) {
+        $whois = eval { Encode::decode( 'UTF-8', $whois ) } || $whois;
+    }
+
+    my $expdate = $flags & FLG_EXPDATE ? expdate_int_cno( $whois ) : undef;
+    my $credate = $flags & FLG_CREDATE ? credate_int_cno( $whois ) : undef;
+    return $credate, $expdate;
 }
 
 sub expdate_int {
@@ -169,15 +178,15 @@ sub _config_netwhoisraw {
 
 # extract expiration date from whois output
 sub expdate_int_cno {
-    my ($whois) = @_;
-    return undef unless $whois;
+    my ( $whois ) = @_;
+    return undef  unless $whois;
 
     # $Y - The year, including century
     # $y - The year within century (0-99)
     # $m - The month number (1-12)
     # $b - The month name
     # $d - The day of month (1-31)
-    my ($rulenum, $Y, $y, $m, $b, $d);
+    my ( $rulenum, $Y, $y, $m, $b, $d );
 
     # [whois.networksolutions.com]	Record expires on 27-Apr-2011.
     # [whois.opensrs.net]
@@ -298,19 +307,11 @@ sub expdate_int_cno {
     } elsif ($whois =~ m|Registered through- (\d{2})/(\d{2})/(\d{2})|is) {
         $rulenum = 7.3; $m = $1; $d = $2; $y = $3;
     # [whois.jprs.jp]                   [有効期限]                      2006/12/31
-    } elsif ($whois =~ m{
-            \[
-            (?:
-                有効期限
-                | \x1b\x24\x42\x4d\x2d\x38\x7a\x34\x7c\x38\x42\x1b\x28\x42
-            )
-            \]
-            \s+ ( \d{4} ) / ( \d{2} ) / ( \d{2} )
-        }sx
-    ) {
+    } elsif ( $whois =~ m{ \[有効期限\] \s+ ( \d{4} ) / ( \d{2} ) / ( \d{2} )}sx ) {
         $rulenum = 7.4; $Y = $1; $m = $2; $d = $3;
+    }
     # [whois.ua]			status:     OK-UNTIL 20121122000000
-    } elsif ($whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s) {
+    elsif ( $whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s ) {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
     }
 
@@ -393,6 +394,9 @@ sub credate_int_cno {
     # [whois.belizenic.bz]		Creation Date....: 15-01-2003 05:00:00
     } elsif ($whois =~ m&Creation Date.+?(\d{2})-(\d{2})-(\d{4}) \d{2}:\d{2}:\d{2}&is) {
         $rulenum = 5.3;	$d = $1; $m = $2; $Y = $3;
+    # [whois.jprs.jp]                   [登録年月日]                    2001/04/23
+    } elsif ( $whois =~ m{ \[登録年月日\] \s+ ( \d{4} ) / ( \d{2} ) / ( \d{2} ) }sx ) {
+        $rulenum = 7.4; $Y = $1; $m = $2; $d = $3;
     # [whois.ua]			created:    0-UANIC 20050104013013
     } elsif ($whois =~ m|created:\s+0-UANIC (\d{4})(\d{2})(\d{2})\d{6}|s) {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
@@ -468,7 +472,7 @@ sub dates_int_ru {
         $reg_till = $free_date - 33 * ONE_DAY;
     }
 
-    return ($created, $reg_till, $free_date);
+    return $created, $reg_till, $free_date;
 }
 
 sub isin {
