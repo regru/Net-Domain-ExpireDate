@@ -182,11 +182,13 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 	- fixed test
 
 1.10 2013-Jan-14        Vladimir Melnichenko
-        - parse DD.MM.YYYY creation date
+    - parse DD.MM.YYYY creation date
 
 1.11 2013-Mar-20        Walery Studennikov
-        - fixed test
+    - fixed test
 
 1.12 2014-Mar-04        Alexander Nalobin
-        - addedd support for whois.nic.io server, thanx to Ivan Bessarabov
+    - added support for whois.nic.io server, thanx to Ivan Bessarabov
 
+1.13 2014-Mar-25        Alexander Nalobin
+    - fixed support of .jp domains
