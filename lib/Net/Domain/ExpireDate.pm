@@ -6,9 +6,6 @@ use Net::Whois::Raw;
 use Encode;
 use utf8;
 
-binmode STDOUT, 'encoding(UTF-8)';
-binmode STDERR, 'encoding(UTF-8)';
-
 use constant FLG_EXPDATE => 0b0001;
 use constant FLG_CREDATE => 0b0010;
 use constant FLG_ALL     => 0b1111;
@@ -21,7 +18,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.13';
+our $VERSION = '1.14';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;

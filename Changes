@@ -192,3 +192,6 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.13 2014-Mar-25        Alexander Nalobin
     - fixed support of .jp domains
+
+1.14 2014-Apr-26        Alexander Nalobin
+    - removed stdout & stderr encoding

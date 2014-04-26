@@ -8,6 +8,9 @@ use Data::Dumper;
 use POSIX;
 setlocale( &POSIX::LC_TIME, 'en_US.UTF-8' );
 
+binmode STDOUT, 'encoding(UTF-8)';
+binmode STDERR, 'encoding(UTF-8)';
+
 use_ok 'Net::Domain::ExpireDate';
 
 diag '.com .net .org tests';
