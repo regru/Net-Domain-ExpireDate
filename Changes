@@ -195,3 +195,6 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.14 2014-Apr-26        Alexander Nalobin
     - removed stdout & stderr encoding
+
+1.15 2014-Apr-30        Alexander Nalobin
+    - test fixed
