@@ -12,6 +12,11 @@ my $build = Module::Build->new(
     },
     create_makefile_pl => 'traditional',
     dist_abstract => 'Net::Domain::ExpireDate -- obtain expiration date of domain names',
+    meta_merge => {
+        resources => {
+            repository => 'https://github.com/regru/Net-Domain-ExpireDate'
+        }
+    },
 );
 
 $build->create_build_script;

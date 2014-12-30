@@ -11,6 +11,16 @@ WriteMakefile
                  },
   'INSTALLDIRS' => 'site',
   'EXE_FILES' => [],
-  'PL_FILES' => {}
+  'PL_FILES' => {},
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+         resources => {
+             repository => {
+                 type => 'git',
+                 url  => 'https://github.com/regru/Net-Domain-ExpireDate.git',
+                 web  => 'https://github.com/regru/Net-Domain-ExpireDate',
+             },
+         },
+    },
 )
 ;
