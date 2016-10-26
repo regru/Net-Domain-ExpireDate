@@ -198,3 +198,6 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.15 2014-Apr-30        Alexander Nalobin
     - test fixed
+
+1.16 2016-Oct-30        7ojo
+    - added FI whois changes
