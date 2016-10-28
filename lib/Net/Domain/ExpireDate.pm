@@ -237,12 +237,13 @@ sub _expdate_int_cno {
     } elsif ( $whois =~ m/expires?:\s+(\d{4})(\d{2})(\d{2})/is ) {
         $rulenum = 2.3;	$Y = $1; $m = $2; $d = $3;
     # [whois.ripe.net] .FI		expires:  1.9.2007
+    # [whois.fi] .FI			expires............:  1.9.2007
     # [whois.rnids.rs]          Expiration date: 15.09.2012 11:58:33
     # [whois.dns.pt]            Expiration Date (dd/mm/yyyy): 31/12/2013
     # [whois.nic.im]            Expiry Date: 28/12/2012 00:59:59
     # [whois.isoc.org.il]       validity:     15-08-2012
     # [whois.register.bg]       expires at: 08/01/2013 00:00:00 EET
-    } elsif ( $whois =~ m/(?:validity|Expiry Date|expires?(?: at)?|expiration date(?: \(dd\/mm\/yyyy\))?):\s+(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/is ) {
+    } elsif ( $whois =~ m/(?:validity|Expiry Date|expires?(?:\.*)(?: at)?|expiration date(?: \(dd\/mm\/yyyy\))?):\s+(\d{1,2})[.\/-](\d{1,2})[.\/-](\d{4})/is ) {
         $rulenum = 2.4; $Y = $3; $m = $2; $d = $1;
     # [whois.dotster.com]		Expires on: 12-DEC-05
     # [whois for domain rosemount.com] Expires on..............: 26-Oct-15
@@ -307,6 +308,8 @@ sub _expdate_int_cno {
     elsif ( $whois =~ m|status:\s+OK-UNTIL (\d{4})(\d{2})(\d{2})\d{6}|s ) {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
     }
+	# [whois.fi
+	
 
     unless ( $rulenum ) {
         warn "Can't recognise expiration date format: $whois\n";
@@ -362,8 +365,10 @@ sub _credate_int_cno {
     # [..cn]				Registration Date: 2003-03-19 08:06
     } elsif ( $whois =~ m/(?:Creat.+?|Registration Date):?\s*?(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})/is ) {
         $rulenum = 2.1;	$Y = $1; $m = $2; $d = $3;
-     # created: 16.12.2006
-     } elsif ( $whois =~ m/(?:created|registered):\s+(\d{2})[-.](\d{2})[-.](\d{4})/is ) {
+	# created: 16.12.2006
+    # created............: 16.12.2006
+	# created: 1.1.2006
+     } elsif ( $whois =~ m/(?:created|registered)(?:\.*):\s+(\d{1,2})[-.](\d{1,2})[-.](\d{4})/is ) {
          $rulenum = 2.2;        $Y = $3; $m = $2; $d = $1;
     # [whois.org.ru] created: 2006.12.16
     } elsif ( $whois =~ m/(?:created|registered):\s+(\d{4})[-.](\d{2})[-.](\d{2})/is ) {
