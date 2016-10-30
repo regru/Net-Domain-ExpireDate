@@ -1,7 +1,9 @@
 #!/usr/bin/perl -w
 
 use strict;
-use lib '.';
+
+use FindBin '$Bin';
+use lib "$Bin/../lib";
 
 use Test::More;
 use Data::Dumper;
@@ -74,6 +76,9 @@ is expdate_fmt( "\nstate:   Delegated till 2003.10.01\nstate:   RIPN NCC check c
 is expdate_fmt( "\ncreated:  2001.09.19\nreg-till: 2003.09.20\n", 'ru' ), '2003-09-20';
 is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002.10.03\n", 'ru' ), '2002-08-31';
 
+diag '.fi tests';
+is expdate_fmt( "\nexpires............: 5.4.2017\n" ), '2017-04-05';
+
 diag 'creation date tests';
 
 is credate_fmt( "\nDomain Registration Date:   Wed Mar 27 00:01:00 GMT 2002\n", 'biz' ), '2002-03-27';
@@ -85,6 +90,9 @@ is credate_fmt( "\nCreated : September 10 1999.\n", 'ac' ), '1999-09-10';
 is credate_fmt( "\nDomain Create Date:29-Apr-2008 17:53:03 UTC\n" ), '2008-04-29';
 
 is credate_fmt( "\ncreated:    0-UANIC 20130104013013\n" ), '2013-01-04';
+
+is credate_fmt( "\ncreated: 1.2.2003\n" ), '2003-02-01';
+is credate_fmt( "\ncreated............: 21.1.2005\n" ), '2005-01-21';
 
 diag 'domdates tests';
 
