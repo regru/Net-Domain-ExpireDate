@@ -71,10 +71,19 @@ is expdate_fmt( "\nDomain Expiration Date:29-Apr-2013 17:53:03 UTC\n" ), '2013-0
 is expdate_fmt( "\nstatus:     OK-UNTIL 20130104013013\n" ), '2013-01-04';
 is expdate_fmt( "\nExpiry : 2017-01-25\n" ), '2017-01-25';
 
-diag '.ru tests';
+diag '.ru tests old date format';
 is expdate_fmt( "\nstate:   Delegated till 2003.10.01\nstate:   RIPN NCC check completed OK\n", 'ru' ), '2003-10-01';
 is expdate_fmt( "\ncreated:  2001.09.19\nreg-till: 2003.09.20\n", 'ru' ), '2003-09-20';
 is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002.10.03\n", 'ru' ), '2002-08-31';
+
+diag '.ru tests new date format';
+is expdate_fmt( "\nstate:   Delegated till 2003-10-01T13:06:31Z\nstate:   RIPN NCC check completed OK\n", 'ru' ), '2003-10-01';
+is expdate_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2003-09-20T14:06:31Z\n", 'ru' ), '2003-09-20';
+is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002-10-03T15:06:31Z\n", 'ru' ), '2002-08-31';
+
+is expdate_fmt( "\nstate:   Delegated till 2003-10-01T13:06:31Z\nstate:   RIPN NCC check completed OK\n", 'ru', '%Y-%m-%d %T' ), '2003-10-01 13:06:31';
+is expdate_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2003-09-20T14:06:31Z\n", 'ru', '%Y-%m-%d %T' ), '2003-09-20 14:06:31';
+is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002-10-03T15:06:31Z\n", 'ru', '%Y-%m-%d %T' ), '2002-08-31 15:06:31';
 
 diag '.fi tests';
 is expdate_fmt( "\nexpires............: 5.4.2017\n" ), '2017-04-05';

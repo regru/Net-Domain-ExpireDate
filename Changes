@@ -201,3 +201,6 @@ Revision history for Perl extension Net::Domain::ExpireDate.
 
 1.16 2016-Oct-30        7ojo
     - added FI whois changes
+
+1.17 2017-Feb-08        Andrey Voyshko
+    - support for the old and the new date format for TCI domains
