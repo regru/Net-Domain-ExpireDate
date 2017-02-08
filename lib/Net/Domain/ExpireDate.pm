@@ -18,7 +18,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.16';
+our $VERSION = '1.17';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
@@ -85,7 +85,7 @@ sub _expire_date_query {
     my $whois = Net::Whois::Raw::whois( $domain, undef, $via_registry ? 'QRY_FIRST' : 'QRY_LAST' );
 
     return expdate_fmt( $whois, $tld, $format )  if $format;
-    
+
     return expdate_int( $whois, $tld );
 }
 
@@ -125,7 +125,7 @@ sub domdates_int {
     $tld ||= 'com';
     $flags ||= FLG_ALL;
 
-    if ( _isin( $tld, [ qw( ru su xn--p1ai ) ] ) ) {
+    if ( _isin( $tld, [ qw( ru su xn--p1ai pp.ru net.ru org.ru ) ] ) ) {
         return _dates_int_ru( $whois );
     }
 
@@ -309,7 +309,7 @@ sub _expdate_int_cno {
         $rulenum = 7.5; $Y = $1; $m = $2; $d = $3;
     }
 	# [whois.fi
-	
+
 
     unless ( $rulenum ) {
         warn "Can't recognise expiration date format: $whois\n";
@@ -427,7 +427,7 @@ sub _credate_int_cno {
     return decode_date( $dstr, $fstr );
 }
 
-# extract creation/expiration dates from whois output for .ru, .su and .рф domains
+# extract creation/expiration dates from whois output for .ru, .su, .pp.ru, .net.ru, .org.ru, .рф domains
 sub _dates_int_ru {
     my ( $whois ) = @_;
     return  unless $whois;
@@ -438,16 +438,30 @@ sub _dates_int_ru {
     $reg_till  = $1  if $whois =~ /payed-till:\s*(.+?)\n/s   ;
     $reg_till  = $1  if $whois =~ /paid-till:\s*(.+?)\n/s    ;
     $free_date = $1  if $whois =~ /free-date:\s*(.+?)\n/s    ;
-    $created   = $1  if $whois =~ /created:\s+([0-9.]+)\n/s  ;
+    $created   = $1  if $whois =~ /created:\s+(.+?)\n/s  ;
     $reg_till  = $1  if $whois =~ /Delegated till\s*(.+?)\n/s;
 
-    $reg_till  =~ tr/./-/  if $reg_till;
-    $free_date =~ tr/./-/  if $free_date;
-    $created   =~ tr/./-/  if $created;
+    my $format = '%Y-%m-%dT%TZ';
+    # OLD format date
+    if (
+        $created && $created     =~ /\./
+          ||
+        $reg_till && $reg_till   =~ /\./
+          ||
+        $free_date && $free_date =~ /\./
+    ) {
+
+      $format = '%Y-%m-%d';
+
+      $reg_till  =~ tr/./-/  if $reg_till;
+      $free_date =~ tr/./-/  if $free_date;
+      $created   =~ tr/./-/  if $created;
+    }
 
     if ( $created ) {
         # Guess reg-till date
-        $created = decode_date( $created, '%Y-%m-%d' );
+        $created = decode_date( $created, $format );
+
         my $t = $created;
 
         if ( $t && !$reg_till && !$free_date ) {
@@ -455,7 +469,7 @@ sub _dates_int_ru {
             while ( $t < localtime() ) {
                 $t += ONE_YEAR + ( $t->is_leap_year() ? 1 : 0 );
             }
-            $reg_till = $t->strftime( '%Y-%m-%d' );
+            $reg_till = $t->strftime( $format );
         }
     }
 
@@ -464,8 +478,8 @@ sub _dates_int_ru {
         return;
     }
 
-    $reg_till  = decode_date( $reg_till  );
-    $free_date = decode_date( $free_date );
+    $reg_till  = decode_date( $reg_till,  $format );
+    $free_date = decode_date( $free_date, $format );
 
     if ( !$reg_till && $free_date ) {
         $reg_till = $free_date - 33 * ONE_DAY;
