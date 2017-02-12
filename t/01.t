@@ -103,6 +103,8 @@ is credate_fmt( "\ncreated:    0-UANIC 20130104013013\n" ), '2013-01-04';
 is credate_fmt( "\ncreated: 1.2.2003\n" ), '2003-02-01';
 is credate_fmt( "\ncreated............: 21.1.2005\n" ), '2005-01-21';
 
+is credate_fmt( "\ncreated:  2001-09-19T14:06:31Z" ), '2001-09-19';
+
 diag 'domdates tests';
 
 is join( ';', domdates_fmt( "\nCreation Date: 06-sep-2000\nExpiration Date: 06-sep-2005\n" ) ),
@@ -113,6 +115,12 @@ is join( ';', domdates_fmt( "\ncreated:    2001.09.19\npaid-till:  2005.09.20\n"
 is join( ';', domdates_fmt( "\nCreated on..............: Mon, Nov 12, 2007
 Expires on..............: Tue, Mar 26, 2013\n" ) ),
     '2007-11-12;2013-03-26;', 'domdates_fmt';
+
+is join( ';', domdates_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2017-09-20T14:06:31Z\nfree-date: 2017-10-24\n", 'ru' ) ),
+    '2001-09-19;2017-09-20;2017-10-24';
+
+is join( ';', domdates_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2017-09-20T14:06:31Z\nfree-date: 2017-10-24\n", 'org.ru' ) ),
+    '2001-09-19;2017-09-20;2017-10-24';
 
 # online tests
 
