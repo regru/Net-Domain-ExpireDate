@@ -18,7 +18,7 @@ our @EXPORT = qw(
     $USE_REGISTRAR_SERVERS
 );
 
-our $VERSION = '1.17';
+our $VERSION = '1.18';
 
 our $USE_REGISTRAR_SERVERS;
 our $CACHE_DIR;
@@ -441,7 +441,7 @@ sub _dates_int_ru {
     $created   = $1  if $whois =~ /created:\s+(.+?)\n/s  ;
     $reg_till  = $1  if $whois =~ /Delegated till\s*(.+?)\n/s;
 
-    my $format = '%Y-%m-%dT%TZ';
+    my $format = '%Y-%m-%dT%H:%M:%SZ';
     # OLD format date
     if (
         $created && $created     =~ /\./

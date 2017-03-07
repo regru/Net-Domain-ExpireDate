@@ -81,9 +81,9 @@ is expdate_fmt( "\nstate:   Delegated till 2003-10-01T13:06:31Z\nstate:   RIPN N
 is expdate_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2003-09-20T14:06:31Z\n", 'ru' ), '2003-09-20';
 is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002-10-03T15:06:31Z\n", 'ru' ), '2002-08-31';
 
-is expdate_fmt( "\nstate:   Delegated till 2003-10-01T13:06:31Z\nstate:   RIPN NCC check completed OK\n", 'ru', '%Y-%m-%d %T' ), '2003-10-01 13:06:31';
-is expdate_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2003-09-20T14:06:31Z\n", 'ru', '%Y-%m-%d %T' ), '2003-09-20 14:06:31';
-is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002-10-03T15:06:31Z\n", 'ru', '%Y-%m-%d %T' ), '2002-08-31 15:06:31';
+is expdate_fmt( "\nstate:   Delegated till 2003-10-01T13:06:31Z\nstate:   RIPN NCC check completed OK\n", 'ru', '%Y-%m-%d %H:%M:%S' ), '2003-10-01 13:06:31';
+is expdate_fmt( "\ncreated:  2001-09-19T14:06:31Z\nreg-till: 2003-09-20T14:06:31Z\n", 'ru', '%Y-%m-%d %H:%M:%S' ), '2003-09-20 14:06:31';
+is expdate_fmt( "\nstate:    REGISTERED, NOT DELEGATED\nfree-date:2002-10-03T15:06:31Z\n", 'ru', '%Y-%m-%d %H:%M:%S' ), '2002-08-31 15:06:31';
 
 diag '.fi tests';
 is expdate_fmt( "\nexpires............: 5.4.2017\n" ), '2017-04-05';
@@ -139,7 +139,7 @@ $Net::Domain::ExpireDate::USE_REGISTRAR_SERVERS = 0;
 like join( ';', domain_dates( 'godaddy.com', '%Y-%m-%d') ), qr{1999-03-02;202\d-11-01;};
 $Net::Domain::ExpireDate::USE_REGISTRAR_SERVERS = 2;
 
-like join( ';', domain_dates( 'reg.ru', '%Y-%m-%d' ) ), qr{2005-11-01;201\d-11-01;};
+like join( ';', domain_dates( 'reg.ru', '%Y-%m-%d' ) ), qr{2005-10-31;201\d-10-31;};
 
 like join( ';', domain_dates( 'ibm.com', '%Y-%m-%d' ) ), qr{1986-03-19;20\d\d-03-20;};
 like join( ';', domain_dates( 'intel.com', '%Y-%m-%d' ) ), qr{1986-03-25;20\d\d-03-26;};
